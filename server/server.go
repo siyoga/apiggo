@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"errors"
+	"net"
 	"net/http"
 )
 
@@ -69,6 +70,11 @@ func (s *Server) Serve(ctx context.Context, addr string) error {
 		ReadTimeout:  s.options.readTimeout,
 		WriteTimeout: s.options.writeTimeout,
 		IdleTimeout:  s.options.idleTimeout,
+		// Every request context derives from ctx, so cancelling ctx signals all
+		// in-flight handlers to wind down; Shutdown below then drains within the
+		// budget. Handlers that respect ctx exit fast, slow ones ride out
+		// shutdownTimeout.
+		BaseContext: func(net.Listener) context.Context { return ctx },
 	}
 
 	serveErr := make(chan error, 1)
