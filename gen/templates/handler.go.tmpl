@@ -1,0 +1,22 @@
+package {{.Package}}
+
+import (
+	"context"
+
+	dto "{{.DtoImport}}"
+)
+
+// Handler implements the {{.Op.ID}} operation.
+type Handler struct{}
+
+// New builds a Handler. Add your dependencies here.
+func New() *Handler {
+	return &Handler{}
+}
+
+// Handle implements the {{.Op.ID}} operation ({{.Op.Method}} {{.Op.Pattern}}).
+func (h *Handler) Handle(ctx context.Context, in dto.{{.Op.InType}}) (dto.{{.Op.OutType}}, error) {
+	// TODO: implement {{.Op.ID}}
+	var out dto.{{.Op.OutType}}
+	return out, nil
+}
