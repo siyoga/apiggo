@@ -1,4 +1,4 @@
-package gen
+package codegen
 
 // Config drives a single generation run.
 type Config struct {

@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/siyoga/gopigen/gen"
+	gen "github.com/siyoga/gopigen/pkg/codegen"
 )
 
 func main() {

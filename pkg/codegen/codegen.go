@@ -1,6 +1,4 @@
-// Package gen implements the gopigen code generator: it reads an OpenAPI
-// contract and emits the dto, router-glue, and handler-stub layers.
-package gen
+package codegen
 
 import (
 	"fmt"
