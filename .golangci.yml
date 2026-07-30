@@ -1,0 +1,28 @@
+# golangci-lint configuration (v2 schema).
+# Conservative starter set: the stable default linters plus a few high-value
+# opt-ins. Run locally with: golangci-lint run
+version: "2"
+
+run:
+  timeout: 5m
+
+linters:
+  enable:
+    - errcheck
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    - misspell
+    - revive
+  exclusions:
+    rules:
+      # Test files may leave errors unchecked for brevity.
+      - path: _test\.go
+        linters:
+          - errcheck
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
