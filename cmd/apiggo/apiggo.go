@@ -1,4 +1,4 @@
-// Command apiggo generates dto, router-glue and handler-stub code from an
+// Command apiggo generates dto, http-adapter and handler-stub code from an
 // OpenAPI contract.
 //
 // Configuration comes from a YAML file (-config) and/or CLI flags; an explicitly

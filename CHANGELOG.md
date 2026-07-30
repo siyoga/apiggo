@@ -14,12 +14,12 @@ Initial public release.
 ### Added
 
 - Contract-first code generator: OpenAPI **3.0.x** documents (YAML or JSON) →
-  Go DTOs, router glue, and handler stubs.
+  Go DTOs, HTTP adapters, and handler stubs.
 - Typed end-to-end generation: scalar path/query/header parameters with automatic
   type conversion, `application/json` request/response bodies, enums, nested
   objects, arrays, and per-operation typed error responses.
 - Handler stubs written once and never overwritten on regeneration; DTOs and
-  router glue regenerated on every run.
+  HTTP adapters regenerated on every run.
 - Thin `net/http` runtime (`pkg/server`): options-based configuration, middleware
   chain, panic recovery, unified error handling via the `APIError` interface, and
   graceful shutdown with a configurable budget.

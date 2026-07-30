@@ -8,7 +8,7 @@
 
 **Contract-first OpenAPI → Go code generator with a thin `net/http` runtime.**
 
-Point it at an OpenAPI document and it emits typed DTOs, transport glue, and
+Point it at an OpenAPI document and it emits typed DTOs, HTTP adapters, and
 handler stubs — so the only code you write is business logic inside
 `Handle(ctx, in) (out, error)`.
 
@@ -21,7 +21,7 @@ handler stubs — so the only code you write is business logic inside
 - **You write only the interesting part.** Parameter parsing, type conversion,
   JSON (de)serialization, and error mapping are generated — your job is the body
   of `Handle`.
-- **Safe regeneration.** DTOs and router glue are regenerated on every run;
+- **Safe regeneration.** DTOs and HTTP adapters are regenerated on every run;
   handler stubs are written **once and never overwritten**, so re-running after a
   spec change never clobbers your logic.
 - **Zero framework.** Generated and runtime code use only stdlib `net/http`
@@ -37,7 +37,7 @@ runtime that hosts them:
 
 - **DTOs** — request/response structs, enums, and typed errors derived from the
   schema.
-- **Router glue** — HTTP handlers that parse parameters and bodies, call your
+- **HTTP adapters** — handlers that parse parameters and bodies, call your
   code, and serialize the result.
 - **Handler stubs** — minimal `Handle(ctx, in) (out, error)` scaffolds where your
   logic lives.
@@ -51,9 +51,9 @@ tiny `apiggo/pkg/server` package.
 Every operation in the spec flows through three layers:
 
 ```
-OpenAPI spec ──apiggo──▶  DTOs        (types you pass around)
-                           Router glue (transport: parse → call → serialize)
-                           Handler stub(your business logic)
+OpenAPI spec ──apiggo──▶  DTOs         (types you pass around)
+                           HTTP adapter (transport: parse → call → serialize)
+                           Handler stub (your business logic)
 ```
 
 A generated run writes a tree like this:
@@ -68,10 +68,10 @@ A generated run writes a tree like this:
     └── createpet/handler.go
 ```
 
-The core idea: **the generator owns transport, you own logic.** The router glue
+The core idea: **the generator owns transport, you own logic.** The HTTP adapter
 knows how to decode a request into a typed `In`, hand it to your `Handle`, and
 turn the returned `Out` (or `error`) into an HTTP response. It calls into the
-runtime for wiring — the glue itself knows nothing about middleware, panic
+runtime for wiring — the adapter itself knows nothing about middleware, panic
 recovery, or how errors become status codes. That keeps generated code small and
 your code free of transport concerns.
 
@@ -218,7 +218,7 @@ func (e *GetPetNotFound) StatusCode() int { return 404 }
 func (e *GetPetNotFound) Body() any       { return e }
 ```
 
-**Router glue** — one registrar per operation that parses the request, calls your
+**HTTP adapters** — one registrar per operation that parses the request, calls your
 handler, and serializes the response:
 
 ```go

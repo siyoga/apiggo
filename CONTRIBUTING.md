@@ -28,7 +28,7 @@ gofmt -w .
 
 - `cmd/apiggo` — the CLI entry point (flag/config parsing).
 - `pkg/codegen` — the OpenAPI → Go generator: IR, loader, naming, templates, render.
-- `pkg/codegen/templates` — the `*.go.tmpl` files that produce DTOs, router glue, and handler stubs.
+- `pkg/codegen/templates` — the `*.go.tmpl` files that produce DTOs, HTTP adapters, and handler stubs.
 - `pkg/server` — the thin `net/http` runtime (options, middleware, error handling, graceful shutdown).
 
 ## Golden fixtures

@@ -59,7 +59,7 @@ func renderAll(cfg Config, spec *Spec) error {
 		return err
 	}
 
-	// Layer 2: router glue (always overwritten).
+	// Layer 2: HTTP adapters (always overwritten).
 	router, err := render("router.go.tmpl", routerData{
 		Package:       path.Base(cfg.RouterPkg),
 		RuntimeImport: runtimeImport,

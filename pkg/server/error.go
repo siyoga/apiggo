@@ -8,7 +8,7 @@ import (
 
 // ErrorHandler turns any error returned by a handler (or a recovered panic
 // converted to an error) into an HTTP response. It owns the APIError typecast
-// and the unknown-error -> 500 fallback, so the glue and panicMiddleware render
+// and the unknown-error -> 500 fallback, so the adapter and panicMiddleware render
 // errors through one place instead of duplicating the mapping.
 type ErrorHandler func(w http.ResponseWriter, r *http.Request, err error)
 

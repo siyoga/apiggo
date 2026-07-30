@@ -17,6 +17,6 @@ type Config struct {
 	APIPkg    string // default "api"
 }
 
-// runtimeImport is the import path of the apiggo runtime the generated router
-// glue targets.
+// runtimeImport is the import path of the apiggo runtime the generated HTTP
+// adapters target.
 const runtimeImport = "github.com/siyoga/apiggo/pkg/server"

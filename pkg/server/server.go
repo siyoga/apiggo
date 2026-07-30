@@ -23,7 +23,7 @@ func NewServer(opts ...Option) *Server {
 	}
 
 	// Run the registrars collected by WithOpenApiMethod now that the *Server
-	// exists: each builds its glue handler and calls srv.Register to wire the
+	// exists: each builds its adapter handler and calls srv.Register to wire the
 	// middleware chain and register on the mux.
 	for _, register := range servOpts.methods {
 		register(srv)
@@ -35,9 +35,9 @@ func NewServer(opts ...Option) *Server {
 // Register wraps h in the middleware chain and registers it on the mux under a
 // method-aware pattern ("POST /users/{id}"). The chain runs outside-in as
 // panic -> global -> route-specific -> handler, so panic recovery catches
-// panics from every middleware, not just the handler. The generated router glue
+// panics from every middleware, not just the handler. The generated HTTP adapter
 // builds h (parse in -> handler -> render out/APIError) and hands it here; the
-// runtime owns middleware assembly, the glue knows nothing about it.
+// runtime owns middleware assembly, the adapter knows nothing about it.
 func (s *Server) Register(method, pattern string, h http.Handler, routeMws ...Middleware) {
 	// route-specific → global → panic (lifo order)
 	for i := len(routeMws) - 1; i >= 0; i-- {
@@ -53,7 +53,7 @@ func (s *Server) Register(method, pattern string, h http.Handler, routeMws ...Mi
 
 // HandleError renders err as an HTTP response through the configured
 // ErrorHandler (APIError typecast + unknown-error -> 500 fallback + render). The
-// generated glue calls this on any error a handler returns, so the normal-error
+// generated adapter calls this on any error a handler returns, so the normal-error
 // path and the panic path go through the same handler.
 func (s *Server) HandleError(w http.ResponseWriter, r *http.Request, err error) {
 	s.options.errorHandler(w, r, err)

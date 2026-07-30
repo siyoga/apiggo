@@ -144,7 +144,7 @@ func WithErrorHandler(h ErrorHandler) Option {
 
 // WithOpenApiMethod registers one generated operation. method is the generated
 // registrar: given the typed handler it returns a func(*Server) that builds the
-// glue http.Handler and calls s.Register. The registrar is stashed here and run
+// adapter http.Handler and calls s.Register. The registrar is stashed here and run
 // in NewServer once the *Server exists.
 func WithOpenApiMethod[IN, OUT any](
 	method func(func(ctx context.Context, in IN) (OUT, error)) func(*Server),
