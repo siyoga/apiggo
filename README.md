@@ -1,19 +1,10 @@
-<table border="0">
-<tr>
-<td valign="middle">
+<img align="right" width="150" src="_logo/logo.svg" alt="apiggo logo">
 
 # apiggo
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/siyoga/apiggo.svg)](https://pkg.go.dev/github.com/siyoga/apiggo)
 [![Go Version](https://img.shields.io/badge/go-1.26-00ADD8?logo=go)](go.mod)
 [![License](https://img.shields.io/badge/license-Apache_2.0-blue)](LICENSE)
-
-</td>
-<td valign="middle" width="170" align="center">
-<img width="150" src="_logo/logo.svg" alt="apiggo logo">
-</td>
-</tr>
-</table>
 
 **Contract-first OpenAPI → Go code generator with a thin `net/http` runtime.**
 
