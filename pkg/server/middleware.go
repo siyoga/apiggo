@@ -7,6 +7,8 @@ import (
 	"runtime/debug"
 )
 
+// Middleware wraps a handler for a given route pattern, returning a new handler.
+// The chain runs outermost-first: panic -> global -> route-specific -> handler.
 type Middleware func(string, http.Handler) http.Handler
 
 // PanicHandler turns a recovered panic value into an APIError. recover returns
@@ -15,7 +17,7 @@ type Middleware func(string, http.Handler) http.Handler
 type PanicHandler func(ctx context.Context, recovered any) APIError
 
 func panicMiddleware(panicHandler PanicHandler, errorHandler ErrorHandler) Middleware {
-	return func(pattern string, next http.Handler) http.Handler {
+	return func(_ string, next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 			buf := newBufferedResponseWriter()
 

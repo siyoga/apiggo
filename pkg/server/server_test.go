@@ -85,14 +85,14 @@ func helloDescriptor(h func(context.Context, helloIn) (helloOut, error)) func(*S
 	}
 }
 
-func TestWithOpenApiMethod_SuccessPath(t *testing.T) {
+func TestWithOpenAPIMethod_SuccessPath(t *testing.T) {
 	var gotName string
 	handler := func(_ context.Context, in helloIn) (helloOut, error) {
 		gotName = in.Name
 		return helloOut{Message: "hi " + in.Name}, nil
 	}
 
-	srv := NewServer(WithOpenApiMethod(helloDescriptor, handler))
+	srv := NewServer(WithOpenAPIMethod(helloDescriptor, handler))
 
 	ts := httptest.NewServer(srv.mux)
 	defer ts.Close()
@@ -107,7 +107,7 @@ func TestWithOpenApiMethod_SuccessPath(t *testing.T) {
 	assert.JSONEq(t, `{"message":"hi Bob"}`, string(body))
 }
 
-func TestWithOpenApiMethod_ErrorPath(t *testing.T) {
+func TestWithOpenAPIMethod_ErrorPath(t *testing.T) {
 	handler := func(_ context.Context, in helloIn) (helloOut, error) {
 		if in.Name == "" {
 			return helloOut{}, ErrNotFound("name is required")
@@ -115,7 +115,7 @@ func TestWithOpenApiMethod_ErrorPath(t *testing.T) {
 		return helloOut{Message: in.Name}, nil
 	}
 
-	srv := NewServer(WithOpenApiMethod(helloDescriptor, handler))
+	srv := NewServer(WithOpenAPIMethod(helloDescriptor, handler))
 
 	ts := httptest.NewServer(srv.mux)
 	defer ts.Close()

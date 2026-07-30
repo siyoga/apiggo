@@ -46,7 +46,7 @@ func TestWithMiddlewareStored(t *testing.T) {
 func TestWithRecommendedServerSettings(t *testing.T) {
 	customLogger := &stubLogger{}
 	var calledErrH bool
-	errH := func(w http.ResponseWriter, r *http.Request, err error) { calledErrH = true }
+	errH := func(_ http.ResponseWriter, _ *http.Request, _ error) { calledErrH = true }
 
 	srv := NewServer(WithRecommendedServerSettings(RecommendedServerOptions{
 		Logger:       customLogger,

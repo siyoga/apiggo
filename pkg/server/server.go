@@ -7,12 +7,16 @@ import (
 	"net/http"
 )
 
+// Server hosts generated operations on a stdlib http.ServeMux, wiring each one
+// through the configured middleware chain, panic recovery, and error handling.
 type Server struct {
 	options serverOptions
 	mux     *http.ServeMux
 	panicMw Middleware
 }
 
+// NewServer builds a Server from the given options and runs every registrar
+// collected by WithOpenAPIMethod, wiring each operation onto the mux.
 func NewServer(opts ...Option) *Server {
 	servOpts := newServerOptions(opts...)
 
@@ -22,7 +26,7 @@ func NewServer(opts ...Option) *Server {
 		options: servOpts,
 	}
 
-	// Run the registrars collected by WithOpenApiMethod now that the *Server
+	// Run the registrars collected by WithOpenAPIMethod now that the *Server
 	// exists: each builds its adapter handler and calls srv.Register to wire the
 	// middleware chain and register on the mux.
 	for _, register := range servOpts.methods {

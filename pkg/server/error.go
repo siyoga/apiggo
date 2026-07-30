@@ -1,3 +1,6 @@
+// Package server is the thin net/http runtime that hosts apiggo-generated code:
+// option-based configuration, a middleware chain, panic recovery, unified error
+// handling via the APIError interface, and graceful shutdown.
 package server
 
 import (
@@ -43,22 +46,30 @@ type Error struct {
 	Details any    `json:"details,omitempty"`
 }
 
-func (e *Error) Error() string   { return e.Message }
-func (e *Error) StatusCode() int { return e.Status }
-func (e *Error) Body() any       { return e }
+func (e *Error) Error() string { return e.Message }
 
+// StatusCode reports the HTTP status this error maps to.
+func (e *Error) StatusCode() int { return e.Status }
+
+// Body returns the value serialized as the JSON response body.
+func (e *Error) Body() any { return e }
+
+// ErrBadRequest returns a 400 Error with the given message.
 func ErrBadRequest(msg string) *Error {
 	return &Error{Status: http.StatusBadRequest, Message: msg}
 }
 
+// ErrForbidden returns a 403 Error with the given message.
 func ErrForbidden(msg string) *Error {
 	return &Error{Status: http.StatusForbidden, Message: msg}
 }
 
+// ErrNotFound returns a 404 Error with the given message.
 func ErrNotFound(msg string) *Error {
 	return &Error{Status: http.StatusNotFound, Message: msg}
 }
 
+// ErrInternal returns a 500 Error with the given message.
 func ErrInternal(msg string) *Error {
 	return &Error{Status: http.StatusInternalServerError, Message: msg}
 }

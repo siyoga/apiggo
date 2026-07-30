@@ -110,7 +110,10 @@ func TestGeneratedCompiles(t *testing.T) {
 
 	cmd := exec.Command("go", "build", "./...")
 	cmd.Dir = out
-	cmd.Env = append(os.Environ(), "GOFLAGS=-mod=mod", "GOPROXY=off")
+	// -mod=mod lets go resolve the throwaway module's graph; GOPROXY stays at its
+	// default so CI (cold module cache) can fetch the go.mod of transitive deps
+	// like gopkg.in/check.v1 that are needed for graph resolution but never built.
+	cmd.Env = append(os.Environ(), "GOFLAGS=-mod=mod")
 	build, err := cmd.CombinedOutput()
 	require.NoError(t, err, "generated code failed to compile:\n%s", build)
 }

@@ -6,6 +6,8 @@ import (
 	"log/slog"
 )
 
+// Logger is the minimal logging surface the runtime needs; supply one via
+// WithLogger, or rely on the slog-backed default.
 type Logger interface {
 	Error(ctx context.Context, args ...any)
 	WithError(ctx context.Context, err error) context.Context

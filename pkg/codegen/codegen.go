@@ -1,3 +1,6 @@
+// Package codegen turns an OpenAPI contract into Go source: it loads the spec,
+// builds an intermediate representation, and renders three layers — DTOs, HTTP
+// adapters, and handler stubs.
 package codegen
 
 import (
