@@ -1,6 +1,6 @@
-<img align="right" width="150" src="_logo/logo.svg" alt="apiggo logo">
-
 # apiggo
+
+<img align="right" width="150" src="_logo/logo.svg" alt="apiggo logo">
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/siyoga/apiggo.svg)](https://pkg.go.dev/github.com/siyoga/apiggo)
 [![Go Version](https://img.shields.io/badge/go-1.26-00ADD8?logo=go)](go.mod)
