@@ -1,10 +1,11 @@
-module github.com/siyoga/gopigen
+module github.com/siyoga/apiggo
 
 go 1.26.2
 
 require (
 	github.com/getkin/kin-openapi v0.133.0
 	github.com/stretchr/testify v1.11.1
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
@@ -19,5 +20,4 @@ require (
 	github.com/perimeterx/marshmallow v1.1.5 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/woodsbury/decimal128 v1.3.0 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

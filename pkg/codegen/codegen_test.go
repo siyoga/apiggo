@@ -91,7 +91,7 @@ func TestGeneratedCompiles(t *testing.T) {
 	}
 
 	out := t.TempDir()
-	const module = "gopigen.example/e2e"
+	const module = "apiggo.example/e2e"
 	require.NoError(t, Generate(Config{
 		ContractPath: fixtureContract,
 		Module:       module,
@@ -100,10 +100,10 @@ func TestGeneratedCompiles(t *testing.T) {
 
 	wd, err := os.Getwd()
 	require.NoError(t, err)
-	repoRoot := filepath.Clean(filepath.Join(wd, "..")) // gen/ -> repo root
+	repoRoot := filepath.Clean(filepath.Join(wd, "..", "..")) // pkg/codegen -> repo root
 
 	gomod := fmt.Sprintf(
-		"module %s\n\ngo 1.26.2\n\nrequire github.com/siyoga/gopigen v0.0.0\n\nreplace github.com/siyoga/gopigen => %s\n",
+		"module %s\n\ngo 1.26.2\n\nrequire github.com/siyoga/apiggo v0.0.0\n\nreplace github.com/siyoga/apiggo => %s\n",
 		module, repoRoot,
 	)
 	require.NoError(t, os.WriteFile(filepath.Join(out, "go.mod"), []byte(gomod), 0o644))

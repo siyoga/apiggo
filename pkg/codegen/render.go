@@ -12,7 +12,7 @@ import (
 //go:embed templates/*.tmpl
 var templatesFS embed.FS
 
-var tmpl = template.Must(template.New("gopigen").Funcs(template.FuncMap{
+var tmpl = template.Must(template.New("apiggo").Funcs(template.FuncMap{
 	"methodConst": methodConst,
 	"parseStmt":   renderParse,
 }).ParseFS(templatesFS, "templates/*.tmpl"))

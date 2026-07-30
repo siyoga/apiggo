@@ -10,7 +10,7 @@ import (
 // the partial output and replace it with a clean error response.
 //
 // Trade-off: the full body is held in memory and streaming/flushing is disabled
-// (http.Flusher, SSE, chunked) — acceptable for the JSON APIs gopigen targets.
+// (http.Flusher, SSE, chunked) — acceptable for the JSON APIs apiggo targets.
 type bufferedResponseWriter struct {
 	header      http.Header
 	status      int

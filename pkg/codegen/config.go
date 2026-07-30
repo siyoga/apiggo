@@ -17,6 +17,6 @@ type Config struct {
 	APIPkg    string // default "api"
 }
 
-// runtimeImport is the import path of the gopigen runtime the generated router
+// runtimeImport is the import path of the apiggo runtime the generated router
 // glue targets.
-const runtimeImport = "github.com/siyoga/gopigen/server"
+const runtimeImport = "github.com/siyoga/apiggo/pkg/server"
