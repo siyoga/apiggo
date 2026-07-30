@@ -1,17 +1,33 @@
-<p align="center">
-  <img src="_logo/logo.svg" alt="apiggo" width="180">
-</p>
-
-# apiggo 
+# apiggo
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/siyoga/apiggo.svg)](https://pkg.go.dev/github.com/siyoga/apiggo)
 [![Go Version](https://img.shields.io/badge/go-1.26-00ADD8?logo=go)](go.mod)
 [![License](https://img.shields.io/badge/license-Apache_2.0-blue)](LICENSE)
 
+<img align="right" width="150" src="_logo/logo.svg" alt="apiggo logo">
+
 **Contract-first OpenAPI → Go code generator with a thin `net/http` runtime.**
+
 Point it at an OpenAPI document and it emits typed DTOs, transport glue, and
 handler stubs — so the only code you write is business logic inside
 `Handle(ctx, in) (out, error)`.
+
+## Features
+
+- **Contract-first.** The OpenAPI document is the single source of truth — the
+  spec and the implementation can't silently drift.
+- **Typed end to end.** Path/query/header params, JSON bodies, responses, enums,
+  and per-operation error responses all become concrete Go types.
+- **You write only the interesting part.** Parameter parsing, type conversion,
+  JSON (de)serialization, and error mapping are generated — your job is the body
+  of `Handle`.
+- **Safe regeneration.** DTOs and router glue are regenerated on every run;
+  handler stubs are written **once and never overwritten**, so re-running after a
+  spec change never clobbers your logic.
+- **Zero framework.** Generated and runtime code use only stdlib `net/http`
+  (Go 1.22+ method-aware `ServeMux`) — no router dependency, no reflection magic.
+- **Batteries-included runtime.** Graceful shutdown, panic recovery, a middleware
+  chain, and unified error handling.
 
 ## Overview
 
@@ -29,23 +45,6 @@ runtime that hosts them:
 Everything the generator and the runtime produce depends only on the standard
 library `net/http` (using Go 1.22+ method-aware `ServeMux` patterns) plus the
 tiny `apiggo/pkg/server` package.
-
-## Why apiggo
-
-- **Contract-first.** The OpenAPI document drives the code, not the other way
-  around — the spec and the implementation can't silently drift.
-- **Typed end to end.** Path/query/header params, JSON bodies, responses, enums,
-  and per-operation error responses all become concrete Go types.
-- **You write only the interesting part.** Parameter parsing, type conversion,
-  JSON (de)serialization, and error mapping are generated. Your job is the body
-  of `Handle`.
-- **Regeneration is safe.** DTOs and router glue are regenerated on every run;
-  handler stubs are written **once and never overwritten**, so re-running the
-  generator after a spec change never clobbers your logic.
-- **Zero framework.** Generated and runtime code use only stdlib `net/http` — no
-  router dependency, no reflection-heavy magic.
-- **Batteries included runtime.** Built-in graceful shutdown, panic recovery, a
-  middleware chain, and unified error handling.
 
 ## How it works
 
