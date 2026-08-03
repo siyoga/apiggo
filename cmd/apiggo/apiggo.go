@@ -20,13 +20,19 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+// version is the build version, injected at release time via
+// -ldflags "-X main.version=...". It stays "dev" for local builds.
+var version = "dev"
+
 func main() {
 	var (
 		configPath   string
 		outputConfig bool
+		showVersion  bool
 	)
 	flag.StringVar(&configPath, "config", "", "path to a YAML config file")
 	flag.BoolVar(&outputConfig, "output-config", false, "write a starter config to stdout and exit")
+	flag.BoolVar(&showVersion, "version", false, "print version and exit")
 
 	// Per-field flags. Empty defaults so flag.Visit can tell set from unset.
 	flag.String(flagSchema, "", "path to the OpenAPI schema (YAML or JSON) [required]")
@@ -36,6 +42,11 @@ func main() {
 	flag.String(flagRouterPkg, "", "module-relative package path for the router layer (default \"generated/router\")")
 	flag.String(flagAPIPkg, "", "module-relative package path for handler stubs (default \"api\")")
 	flag.Parse()
+
+	if showVersion {
+		fmt.Println("apiggo", version)
+		return
+	}
 
 	if outputConfig {
 		fmt.Print(sampleConfig)
