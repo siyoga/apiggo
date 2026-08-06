@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.1.1] - 2026-08-06
+
+### Changed
+
+- Moved the library to the module root so it is importable as
+  `github.com/siyoga/apiggo` (was `github.com/siyoga/apiggo/pkg/codegen`), giving
+  the root pkg.go.dev page a proper symbol index.
+- Moved the HTTP runtime from `pkg/server` to `server`; generated code now imports
+  `github.com/siyoga/apiggo/server`. **Regenerate existing projects** (or update
+  the import path by hand) after upgrading.
+- Renamed the primary source file `codegen.go` → `apiggo.go` and added
+  package-level documentation for both `apiggo` and `server`.
+
 ## [v0.1.0] - 2026-07-30
 
 Initial public release.
@@ -20,12 +33,13 @@ Initial public release.
   objects, arrays, and per-operation typed error responses.
 - Handler stubs written once and never overwritten on regeneration; DTOs and
   HTTP adapters regenerated on every run.
-- Thin `net/http` runtime (`pkg/server`): options-based configuration, middleware
+- Thin `net/http` runtime (`server`): options-based configuration, middleware
   chain, panic recovery, unified error handling via the `APIError` interface, and
   graceful shutdown with a configurable budget.
 - `apiggo` CLI with YAML config file (`-config`) and per-field flag overrides
   (`-schema`, `-module`, `-out`, `-dto-pkg`, `-router-pkg`, `-api-pkg`), plus
   `-output-config` to emit a starter config.
 
-[Unreleased]: https://github.com/siyoga/apiggo/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/siyoga/apiggo/compare/v0.1.1...HEAD
+[v0.1.1]: https://github.com/siyoga/apiggo/compare/v0.1.0...v0.1.1
 [v0.1.0]: https://github.com/siyoga/apiggo/releases/tag/v0.1.0

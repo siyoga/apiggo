@@ -1,4 +1,4 @@
-package codegen
+package apiggo
 
 import (
 	"flag"
@@ -98,9 +98,8 @@ func TestGeneratedCompiles(t *testing.T) {
 		OutRoot:      out,
 	}))
 
-	wd, err := os.Getwd()
-	require.NoError(t, err)
-	repoRoot := filepath.Clean(filepath.Join(wd, "..", "..")) // pkg/codegen -> repo root
+	repoRoot, err := os.Getwd()
+	require.NoError(t, err) // the codegen package now lives at the repo root
 
 	gomod := fmt.Sprintf(
 		"module %s\n\ngo 1.26.2\n\nrequire github.com/siyoga/apiggo v0.0.0\n\nreplace github.com/siyoga/apiggo => %s\n",

@@ -1,4 +1,4 @@
-package codegen
+package apiggo
 
 // Config drives a single generation run.
 type Config struct {
@@ -19,4 +19,4 @@ type Config struct {
 
 // runtimeImport is the import path of the apiggo runtime the generated HTTP
 // adapters target.
-const runtimeImport = "github.com/siyoga/apiggo/pkg/server"
+const runtimeImport = "github.com/siyoga/apiggo/server"

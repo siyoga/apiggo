@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"strconv"
 
-	dto "example.com/svc/generated/dto"
-	"github.com/siyoga/apiggo/pkg/server"
+	dto "github.com/siyoga/apiggo/examples/petstore/generated/dto"
+	"github.com/siyoga/apiggo/server"
 )
 
 // CreatePet registers the POST /pets operation.
@@ -53,7 +53,6 @@ func GetPet(h func(ctx context.Context, in dto.GetPetIn) (dto.GetPetOut, error))
 				}
 				in.Verbose = v
 			}
-			in.XTrace = r.Header.Get("X-Trace")
 			out, err := h(r.Context(), in)
 			if err != nil {
 				s.HandleError(w, r, err)

@@ -1,3 +1,7 @@
+// Package server is the runtime that apiggo-generated HTTP code depends on:
+// a thin net/http server with typed OpenAPI handlers, structured error
+// responses, panic recovery, and functional options for timeouts, logging,
+// and middleware.
 package server
 
 import (

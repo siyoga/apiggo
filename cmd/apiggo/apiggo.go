@@ -16,7 +16,7 @@ import (
 	"fmt"
 	"os"
 
-	gen "github.com/siyoga/apiggo/pkg/codegen"
+	gen "github.com/siyoga/apiggo"
 	"gopkg.in/yaml.v3"
 )
 

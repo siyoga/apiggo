@@ -44,7 +44,7 @@ runtime that hosts them:
 
 Everything the generator and the runtime produce depends only on the standard
 library `net/http` (using Go 1.22+ method-aware `ServeMux` patterns) plus the
-tiny `apiggo/pkg/server` package.
+tiny `apiggo/server` package.
 
 ## How it works
 
@@ -174,7 +174,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/siyoga/apiggo/pkg/server"
+	"github.com/siyoga/apiggo/server"
 
 	"github.com/acme/svc/api/createpet"
 	"github.com/acme/svc/generated/router"

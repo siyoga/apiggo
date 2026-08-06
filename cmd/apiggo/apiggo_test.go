@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	gen "github.com/siyoga/apiggo/pkg/codegen"
+	gen "github.com/siyoga/apiggo"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

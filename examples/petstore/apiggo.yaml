@@ -1,0 +1,17 @@
+# apiggo generator configuration for the petstore example.
+# Regenerate from the repo root with:
+#   go run ./cmd/apiggo -config examples/petstore/apiggo.yaml
+
+# Path to the OpenAPI document (relative to where apiggo runs).
+schemaPath: examples/petstore/api/openapi.yaml
+
+# Go module path of this example, used to build generated imports.
+module: github.com/siyoga/apiggo/examples/petstore
+
+# Output root: the generated tree is written under here.
+out: examples/petstore
+
+# Module-relative package paths for the three generated layers.
+dtoPackage: generated/dto
+routerPackage: generated/router
+apiPackage: api

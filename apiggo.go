@@ -1,7 +1,9 @@
-// Package codegen turns an OpenAPI contract into Go source: it loads the spec,
+// Package apiggo turns an OpenAPI contract into Go source: it loads the spec,
 // builds an intermediate representation, and renders three layers — DTOs, HTTP
-// adapters, and handler stubs.
-package codegen
+// adapters, and handler stubs. The generated HTTP layer depends only on the
+// standard library plus the companion runtime in
+// [github.com/siyoga/apiggo/server].
+package apiggo
 
 import (
 	"fmt"

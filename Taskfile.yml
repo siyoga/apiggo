@@ -45,8 +45,8 @@ tasks:
   golden:
     desc: Regenerate the codegen golden fixtures (review the diff before committing!)
     cmds:
-      - go test ./pkg/codegen/... -run TestGenerateGolden -update
-      - 'echo "Golden fixtures updated — inspect the diff: git diff pkg/codegen/testdata"'
+      - go test . -run TestGenerateGolden -update
+      - 'echo "Golden fixtures updated — inspect the diff: git diff testdata"'
 
   vet:
     desc: Run go vet static checks
