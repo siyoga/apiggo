@@ -24,7 +24,6 @@ type defaultLogger struct {
 }
 
 func (o *serverOptions) defaultLogger() {
-	o.enableServerLogs = true
 	o.logger = defaultLogger{l: slog.Default()}
 }
 

@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// optionFunc adapts a plain function into an Option.
 type optionFunc func(*serverOptions)
 
 func (optFunc optionFunc) server(servOpt *serverOptions) {
@@ -14,10 +15,6 @@ func (optFunc optionFunc) server(servOpt *serverOptions) {
 // Option configures a Server. Every With* constructor returns one.
 type Option interface {
 	server(*serverOptions)
-}
-
-type option struct {
-	optionFunc
 }
 
 type serverOptions struct {
@@ -32,8 +29,6 @@ type serverOptions struct {
 
 	panicHandler PanicHandler
 	errorHandler ErrorHandler
-
-	enableServerLogs bool
 }
 
 func newServerOptions(opts ...Option) serverOptions {
@@ -80,83 +75,65 @@ func WithRecommendedServerSettings(recOpts RecommendedServerOptions) Option {
 	})
 }
 
-// WithLogger sets the server's logger and enables request/server logging.
+// WithLogger sets the logger the runtime uses to report recovered panics and
+// internal errors.
 func WithLogger(l Logger) Option {
-	return option{
-		optionFunc: func(servOpt *serverOptions) {
-			servOpt.enableServerLogs = true
-			servOpt.logger = l
-
-		},
-	}
+	return optionFunc(func(servOpt *serverOptions) {
+		servOpt.logger = l
+	})
 }
 
 // WithMiddleware registers global middleware applied to every route, outermost
-// first.
+// first. Repeated calls append to the chain rather than replacing it.
 func WithMiddleware(mw ...Middleware) Option {
-	return option{
-		optionFunc: func(servOpt *serverOptions) {
-			servOpt.middlewares = mw
-		},
-	}
+	return optionFunc(func(servOpt *serverOptions) {
+		servOpt.middlewares = append(servOpt.middlewares, mw...)
+	})
 }
 
 // WithReadTimeout sets http.Server.ReadTimeout (zero means no timeout).
 func WithReadTimeout(t time.Duration) Option {
-	return option{
-		optionFunc: func(servOpt *serverOptions) {
-			servOpt.readTimeout = t
-		},
-	}
+	return optionFunc(func(servOpt *serverOptions) {
+		servOpt.readTimeout = t
+	})
 }
 
 // WithIdleTimeout sets http.Server.IdleTimeout (zero means no timeout).
 func WithIdleTimeout(t time.Duration) Option {
-	return option{
-		optionFunc: func(servOpt *serverOptions) {
-			servOpt.idleTimeout = t
-		},
-	}
+	return optionFunc(func(servOpt *serverOptions) {
+		servOpt.idleTimeout = t
+	})
 }
 
 // WithWriteTimeout sets http.Server.WriteTimeout (zero means no timeout).
 func WithWriteTimeout(t time.Duration) Option {
-	return option{
-		optionFunc: func(servOpt *serverOptions) {
-			servOpt.writeTimeout = t
-		},
-	}
+	return optionFunc(func(servOpt *serverOptions) {
+		servOpt.writeTimeout = t
+	})
 }
 
 // WithShutdownTimeout caps how long graceful shutdown waits for in-flight
 // requests to drain (zero means wait indefinitely).
 func WithShutdownTimeout(t time.Duration) Option {
-	return option{
-		optionFunc: func(servOpt *serverOptions) {
-			servOpt.shutdownTimeout = t
-		},
-	}
+	return optionFunc(func(servOpt *serverOptions) {
+		servOpt.shutdownTimeout = t
+	})
 }
 
 // WithPanicHandler overrides the handler invoked when a recovered panic reaches
 // the panic middleware.
 func WithPanicHandler(h PanicHandler) Option {
-	return option{
-		optionFunc: func(servOpt *serverOptions) {
-			servOpt.panicHandler = h
-
-		},
-	}
+	return optionFunc(func(servOpt *serverOptions) {
+		servOpt.panicHandler = h
+	})
 }
 
 // WithErrorHandler overrides how errors returned by handlers are mapped to HTTP
 // responses.
 func WithErrorHandler(h ErrorHandler) Option {
-	return option{
-		optionFunc: func(servOpt *serverOptions) {
-			servOpt.errorHandler = h
-		},
-	}
+	return optionFunc(func(servOpt *serverOptions) {
+		servOpt.errorHandler = h
+	})
 }
 
 // WithOpenAPIMethod registers one generated operation. method is the generated
@@ -167,9 +144,7 @@ func WithOpenAPIMethod[IN, OUT any](
 	method func(func(ctx context.Context, in IN) (OUT, error)) func(*Server),
 	handler func(ctx context.Context, in IN) (OUT, error),
 ) Option {
-	return option{
-		optionFunc: func(servOpt *serverOptions) {
-			servOpt.methods = append(servOpt.methods, method(handler))
-		},
-	}
+	return optionFunc(func(servOpt *serverOptions) {
+		servOpt.methods = append(servOpt.methods, method(handler))
+	})
 }

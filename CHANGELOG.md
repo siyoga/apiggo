@@ -5,7 +5,18 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [v0.1.2] - 2026-08-06
+
+### Fixed
+
+- `WithMiddleware` now appends to the global middleware chain on repeated calls
+  instead of replacing it, so a second `WithMiddleware` (or one used alongside
+  `WithRecommendedServerSettings`) no longer silently drops earlier middleware.
+- Response encoding failures are no longer silently swallowed. Generated HTTP
+  adapters marshal the response body first and return a `500` through the error
+  handler if it fails (instead of emitting a partial `200`); the runtime error
+  handler logs an encode failure instead of ignoring it. **Regenerate** to pick
+  up the adapter change.
 
 ## [v0.1.1] - 2026-08-06
 

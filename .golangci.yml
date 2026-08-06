@@ -15,12 +15,26 @@ linters:
     - unused
     - misspell
     - revive
+    - bodyclose
+    - gosec
   exclusions:
     rules:
       # Test files may leave errors unchecked for brevity.
       - path: _test\.go
         linters:
           - errcheck
+      # Test files and test helpers use dynamic URLs/paths and are not a
+      # security surface.
+      - path: (_test\.go|test_utils\.go)
+        linters:
+          - gosec
+      # apiggo is a code generator: it reads the contract path and writes the
+      # generated tree to paths and perms derived from user config. G301/G304/G306
+      # (dir perms, file path from a variable, 0644 perms on generated .go files)
+      # are inherent to that job, not vulnerabilities.
+      - linters:
+          - gosec
+        text: "G301|G304|G306"
 
 formatters:
   enable:

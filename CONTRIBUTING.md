@@ -27,24 +27,25 @@ gofmt -w .
 ## Project layout
 
 - `cmd/apiggo` — the CLI entry point (flag/config parsing).
-- `pkg/codegen` — the OpenAPI → Go generator: IR, loader, naming, templates, render.
-- `pkg/codegen/templates` — the `*.go.tmpl` files that produce DTOs, HTTP adapters, and handler stubs.
-- `pkg/server` — the thin `net/http` runtime (options, middleware, error handling, graceful shutdown).
+- the root package `apiggo` — the OpenAPI → Go generator: IR, loader, naming, render
+  (`ir.go`, `types.go`, `loader.go`, `names.go`, `render.go`, `config.go`, `apiggo.go`).
+- `templates` — the `*.go.tmpl` files that produce DTOs, HTTP adapters, and handler stubs.
+- `server` — the thin `net/http` runtime (options, middleware, error handling, graceful shutdown).
 
 ## Golden fixtures
 
 The generator is tested against **golden fixtures** — a known-good snapshot of
-its output. They live under `pkg/codegen/testdata/petstore-min`:
+its output. They live under `testdata/petstore-min`:
 
 - `openapi.yaml` — the input contract.
 - `golden/` — the exact files the generator is expected to emit.
 
-If you change a template (`pkg/codegen/templates/*.tmpl`) or any codegen logic,
+If you change a template (`templates/*.tmpl`) or any codegen logic,
 the golden output will change. When that happens:
 
-1. Run `go test ./pkg/codegen/...` and confirm the diff in the failure output is
-   **intended**.
-2. Regenerate/update the golden files so they match the new expected output.
+1. Run `go test .` and confirm the diff in the failure output is **intended**.
+2. Regenerate the golden files with `go test . -run TestGenerateGolden -update`
+   (or `task golden`) so they match the new expected output.
 3. Review the golden diff as part of your change — it is the most important
    signal that a generator change does what you think it does.
 

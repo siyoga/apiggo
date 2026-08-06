@@ -25,8 +25,13 @@ func CreatePet(h func(ctx context.Context, in dto.CreatePetIn) (dto.CreatePetOut
 				s.HandleError(w, r, err)
 				return
 			}
+			body, err := json.Marshal(out)
+			if err != nil {
+				s.HandleError(w, r, server.ErrInternal("failed to encode response"))
+				return
+			}
 			w.Header().Set("Content-Type", "application/json")
-			_ = json.NewEncoder(w).Encode(out)
+			_, _ = w.Write(body)
 		}))
 	}
 }
@@ -59,8 +64,13 @@ func GetPet(h func(ctx context.Context, in dto.GetPetIn) (dto.GetPetOut, error))
 				s.HandleError(w, r, err)
 				return
 			}
+			body, err := json.Marshal(out)
+			if err != nil {
+				s.HandleError(w, r, server.ErrInternal("failed to encode response"))
+				return
+			}
 			w.Header().Set("Content-Type", "application/json")
-			_ = json.NewEncoder(w).Encode(out)
+			_, _ = w.Write(body)
 		}))
 	}
 }

@@ -18,14 +18,18 @@ type ErrorHandler func(w http.ResponseWriter, r *http.Request, err error)
 // defaultErrorHandler maps err to an APIError (falling back to 500) and
 // serializes its body as JSON with the status code.
 func (o *serverOptions) defaultErrorHandler() {
-	o.errorHandler = func(w http.ResponseWriter, _ *http.Request, err error) {
+	o.errorHandler = func(w http.ResponseWriter, r *http.Request, err error) {
 		var ae APIError
 		if !errors.As(err, &ae) {
 			ae = ErrInternal("internal server error")
 		}
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(ae.StatusCode())
-		_ = json.NewEncoder(w).Encode(ae.Body())
+		// The status/headers are already committed, so a failed encode can only be
+		// logged, not recovered — but it must not be swallowed silently.
+		if encErr := json.NewEncoder(w).Encode(ae.Body()); encErr != nil && o.logger != nil {
+			o.logger.Error(o.logger.WithError(r.Context(), encErr), "failed to encode error response")
+		}
 	}
 }
 
