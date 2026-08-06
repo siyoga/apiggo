@@ -1,3 +1,4 @@
+// Package getpet implements the GetPet operation handler for the petstore example.
 package getpet
 
 import (
@@ -21,7 +22,7 @@ func New(pets *store.Store) *Handler {
 //
 // Returning *dto.GetPetNotFound (a generated APIError) makes the runtime reply
 // with 404 and the error's JSON body — no status juggling in the handler.
-func (h *Handler) Handle(ctx context.Context, in dto.GetPetIn) (dto.GetPetOut, error) {
+func (h *Handler) Handle(_ context.Context, in dto.GetPetIn) (dto.GetPetOut, error) {
 	pet, ok := h.pets.Get(in.Id)
 	if !ok {
 		msg := "pet not found"

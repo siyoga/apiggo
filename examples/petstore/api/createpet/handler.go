@@ -1,3 +1,4 @@
+// Package createpet implements the CreatePet operation handler for the petstore example.
 package createpet
 
 import (
@@ -21,7 +22,7 @@ func New(pets *store.Store) *Handler {
 //
 // The request body arrives already decoded in in.Body; validation failures are
 // reported by returning *dto.CreatePetBadRequest (a generated 400 APIError).
-func (h *Handler) Handle(ctx context.Context, in dto.CreatePetIn) (dto.CreatePetOut, error) {
+func (h *Handler) Handle(_ context.Context, in dto.CreatePetIn) (dto.CreatePetOut, error) {
 	if in.Body.Name == "" {
 		msg := "name is required"
 		code := int32(1001)
